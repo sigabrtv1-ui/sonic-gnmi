@@ -66,6 +66,7 @@ go.mod:
 	$(GO) mod init github.com/sonic-net/sonic-gnmi
 
 $(GO_DEPS): go.mod $(PATCHES) swsscommon_wrap $(GNOI_YANG)
+	$(GO) mod tidy
 	$(GO) mod vendor
 	$(GO) mod download github.com/google/gnxi@v0.0.0-20181220173256-89f51f0ce1e2
 	cp -r $(GOPATH)/pkg/mod/github.com/google/gnxi@v0.0.0-20181220173256-89f51f0ce1e2/* vendor/github.com/google/gnxi/
