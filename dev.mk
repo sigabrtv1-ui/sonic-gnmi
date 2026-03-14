@@ -11,11 +11,9 @@
 #   make -f dev.mk dev-image       # build the dev image locally (no CI needed)
 
 # ── Configuration ──────────────────────────────────────────────────────────────
-# Official image (once sonic-net configures GHCR push in CI):
-#   ghcr.io/sonic-net/sonic-gnmi/dev:latest
-# Community/fork mirror (available now, no setup required):
-#   ghcr.io/sigabrtv1-ui/sonic-gnmi-dev:latest
-DEV_IMAGE      ?= ghcr.io/sonic-net/sonic-gnmi/dev:latest
+# Current host: sigabrtv1-ui GHCR (public, no auth required, pushed by CI on every merge).
+# Long-term home: ghcr.io/sonic-net/sonic-gnmi/dev (pending sonic-net org admin setup).
+DEV_IMAGE      ?= ghcr.io/sigabrtv1-ui/sonic-gnmi-dev:latest
 CONTAINER_NAME ?= sonic-gnmi-dev
 WORKSPACE      := $(abspath .)
 BUILD_BRANCH   ?= master
@@ -47,7 +45,6 @@ dev-up:
 		echo "Pulled $(DEV_IMAGE)"; \
 	else \
 		echo "⚠️  Could not pull $(DEV_IMAGE) — building locally (this takes ~10 min on first run)."; \
-		echo "   Tip: use a pre-built mirror: make -f dev.mk dev-up DEV_IMAGE=ghcr.io/sigabrtv1-ui/sonic-gnmi-dev:latest"; \
 		$(MAKE) -f dev.mk dev-image; \
 	fi
 	@if docker ps -a --format '{{.Names}}' | grep -qx "$(CONTAINER_NAME)"; then \
